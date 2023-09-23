@@ -1,0 +1,14 @@
+{
+  "name": "@peter-schweitzer/ez-utils",
+  "version": "0.0.2",
+  "description": "utility package for centralized type definitions and util functions",
+  "main": "index.js",
+  "types": "types.d.ts",
+  "exports": {
+    "import": "./index.mjs",
+    "require": "./index.js"
+  },
+  "keywords": [],
+  "author": "Peter Schweitzer",
+  "license": "MIT"
+}

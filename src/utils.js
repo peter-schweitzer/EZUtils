@@ -1,11 +1,12 @@
 const { log: LOG, table: TAB, warn: WRN, error: ERR } = console;
 
 /**
- * @param {string} err
- * @returns {Err}
+ * @param {T} [err='']
+ * @returns {Err<T>}
+ * @template {string} [T='']
  */
-function err(err = '') {
-  return { err, data: null };
+function err(/**@type {T|''}*/ err = '') {
+  return { err: /**@type {T}*/ (err), data: null };
 }
 
 /**
@@ -19,7 +20,7 @@ function data(data = null) {
 
 /**
  * @param {Promise<T>} promise
- * @returns {AsyncErrorOr<T>}
+ * @returns {AsyncErrorOr<string, T>}
  * @template T
  */
 async function p2eo(promise) {

@@ -1,5 +1,6 @@
 /**
- * @typedef {{err: string, data: null}} Err
+ * @typedef {{err: T, data: null}} Err<T>
+ * @template {string} [T='']
  */
 
 /**
@@ -8,13 +9,15 @@
  */
 
 /**
- * @typedef {Err|Data<T>} ErrorOr<T>
- * @template T
+ * @typedef {Err<T>|Data<K>} ErrorOr<T,K>
+ * @template {string} T
+ * @template K
  */
 
 /**
- * @typedef {Promise<ErrorOr<T>>} AsyncErrorOr<T> The Promise should always resolves, never reject!
- * @template T
+ * @typedef {Promise<ErrorOr<T,K>>} AsyncErrorOr<T,K> The Promise should always resolves, never reject!
+ * @template {string} T
+ * @template K
  */
 
 /**

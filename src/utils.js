@@ -2,20 +2,22 @@ const { log: LOG, table: TAB, warn: WRN, error: ERR } = console;
 
 /**
  * @param {T} [err='']
+ * @param {Object} [obj={}]
  * @returns {SpecificErr<T>}
- * @template {string|''} [T='']
+ * @template {string} [T='']
  */
-function err(/**@type {T|''}*/ err = '') {
-  return { err: /**@type {T}*/ (err), data: null };
+function err(/**@type {T|''}*/ err = '', obj = {}) {
+  return (obj.err = err), (obj.data = null), obj;
 }
 
 /**
  * @param {T} data
+ * @param {Object} [obj={}]
  * @returns {Data<T>}
  * @template T
  */
-function data(data = null) {
-  return { err: null, data };
+function data(data = null, obj = {}) {
+  return (obj.err = null), (obj.data = data), obj;
 }
 
 /**

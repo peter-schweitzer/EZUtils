@@ -1,4 +1,4 @@
-const { log: LOG, table: TAB, warn: WRN, error: ERR } = console;
+export const { log: LOG, table: TAB, warn: WRN, error: ERR } = console;
 
 /**
  * @param {T} [err='']
@@ -6,7 +6,7 @@ const { log: LOG, table: TAB, warn: WRN, error: ERR } = console;
  * @returns {SpecificErr<T>}
  * @template {string} [T='']
  */
-function err(/**@type {T|''}*/ err = '', obj = {}) {
+export function err(/**@type {T|''}*/ err = '', obj = {}) {
   return (obj.err = err), (obj.data = null), obj;
 }
 
@@ -16,21 +16,20 @@ function err(/**@type {T|''}*/ err = '', obj = {}) {
  * @returns {Data<T>}
  * @template T
  */
-function data(data = null, obj = {}) {
+export function data(data = null, obj = {}) {
   return (obj.err = null), (obj.data = data), obj;
 }
 
 /**
  * @param {Promise<T>} promise
+ * @param {Object} [obj={}]
  * @returns {AsyncErrorOr<T>}
  * @template T
  */
-async function p2eo(promise) {
+export async function p2eo(promise, obj = {}) {
   try {
-    return Promise.resolve(data(await promise));
+    return Promise.resolve(data(await promise, obj));
   } catch (e) {
-    Promise.resolve(err(typeof e === 'string' ? e : JSON.stringify(e)));
+    Promise.resolve(err(typeof e === 'string' ? e : JSON.stringify(e), obj));
   }
 }
-
-module.exports = { LOG, TAB, WRN, ERR, err, data, p2eo };

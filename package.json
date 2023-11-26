@@ -3,10 +3,10 @@
   "version": "0.2.0",
   "description": "utility package for centralized type definitions and util functions",
   "main": "index.js",
-  "types": "types.d.ts",
+  "type": "module",
   "exports": {
-    "import": "./index.mjs",
-    "require": "./index.js"
+    "import": "./index.js",
+    "types": "./index.d.ts"
   },
   "keywords": [],
   "author": "Peter Schweitzer",

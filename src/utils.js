@@ -30,6 +30,6 @@ export async function p2eo(promise, obj = {}) {
   try {
     return Promise.resolve(data(await promise, obj));
   } catch (e) {
-    Promise.resolve(err(typeof e === 'string' ? e : JSON.stringify(e), obj));
+    return Promise.resolve(err(typeof e === 'string' ? e : JSON.stringify(e), obj));
   }
 }

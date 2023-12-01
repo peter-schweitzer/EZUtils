@@ -1,0 +1,11 @@
+{
+  "name": "ezserver-test-multi-module-jsm",
+  "version": "0.0.0-dev",
+  "main": "index.js",
+  "type": "module",
+  "author": "Peter Schweitzer",
+  "license": "MIT",
+  "dependencies": {
+    "@peter-schweitzer/ezserver": "develop"
+  }
+}

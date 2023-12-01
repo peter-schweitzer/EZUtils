@@ -1,0 +1,9 @@
+repos:
+  - repo: local
+    hooks:
+      - id: test
+        name: test
+        entry: ./tests/jsm/run.sh
+        language: system
+        always_run: true
+        pass_filenames: false

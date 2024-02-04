@@ -3,9 +3,7 @@
  * @template T
  */
 
-/**
- * @typedef {{err: string, data: null}} Err
- */
+/** @typedef {{err: string, data: null}} Err */
 
 /**
  * @typedef {Err | Data<T>} ErrorOr<T>
@@ -43,3 +41,5 @@
  * @typedef {false|T} FalseOr<T>
  * @template T
  */
+
+/** @typedef {{[key: string]: ('boolean'|'number'|'string'|'object'|'array'|'null'|'any'|Schema)}} Schema */

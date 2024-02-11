@@ -4,3 +4,7 @@
 # git
 .git/
 .gitignore
+
+# tests
+.pre-commit-config.yaml
+test/

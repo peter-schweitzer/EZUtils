@@ -1,3 +1,5 @@
+.npmignore
+
 # vscode
 .vscode/
 

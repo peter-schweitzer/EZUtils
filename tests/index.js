@@ -2,7 +2,7 @@
 
 import assert from 'node:assert';
 
-import { ERR, LOG, ObjPool, TAB, WRN, data, err, p2eo } from '@peter-schweitzer/ez-utils';
+import { ERR, LOG, ObjPool, TAB, WRN, data, err, p2eo } from '../index.js';
 
 const r = '\x1b[31;1m';
 const g = '\x1b[32m';

@@ -111,3 +111,8 @@ export function sanitize(obj, schema, eo_obj) {
 export function escapeHTML(raw_str = '') {
   return raw_str.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
 }
+
+/** @param {string} [str=""] */
+export function unescapeHTML(str = '') {
+  return str.replaceAll('&quot;', '"').replaceAll('&gt;', '>').replaceAll('&lt;', '<').replaceAll('&amp;', '&');
+}

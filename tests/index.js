@@ -2,7 +2,7 @@
 
 import assert from 'node:assert';
 
-import { ERR, LOG, ObjPool, TAB, WRN, data, err, escapeHTML, p2eo } from '../index.js';
+import { ERR, LOG, ObjPool, TAB, WRN, data, err, escapeHTML, p2eo, unescapeHTML } from '../index.js';
 
 const r = '\x1b[31;1m';
 const g = '\x1b[32m';
@@ -39,14 +39,17 @@ console.log(`${g}p2eo function passed${e}`);
 /**
  * @param {string} a
  * @param {string} b
+ * @param {boolean} c
  */
-const assert_escape_msg = (a, b) => `${y}'${a}'${e} ${r}does not map to${e} ${y}'${b}'${e}`;
+const assert_escape_msg = (a, b, c) => `${y}'${a}'${e} ${r}does not ${c ? 'un' : ''}escape to${e} ${y}'${b}'${e}`;
 
 for (const [raw, esc] of [
   ['<script>alert("injected JS");</script>', '&lt;script&gt;alert(&quot;injected JS&quot;);&lt;/script&gt;'],
   ['&lt;&gt;', '&amp;lt;&amp;gt;'],
-])
-  assert.equal(escapeHTML(raw), esc, assert_escape_msg(raw, esc));
+]) {
+  assert.equal(escapeHTML(raw), esc, assert_escape_msg(raw, esc, false));
+  assert.equal(unescapeHTML(esc), raw, assert_escape_msg(esc, raw, true));
+}
 console.log(`${g}escapeHTML function passed${e}`);
 
 console.log('ObjPool:', ObjPool);

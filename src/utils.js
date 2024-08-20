@@ -106,3 +106,8 @@ export function sanitize(obj, schema, eo_obj) {
   //@ts-expect-error ts(2322) sanitized has correct structure, has slightly different type annotation to avoid multiple other type errors
   return sanitized;
 }
+
+/** @param {string} [raw_str=""] */
+export function escapeHTML(raw_str = '') {
+  return raw_str.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
+}

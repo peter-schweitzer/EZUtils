@@ -1,5 +1,3 @@
-'use strict';
-
 import assert from 'node:assert';
 
 import { ERR, LOG, ObjPool, TAB, WRN, data, err, escapeHTML, p2eo, unescapeHTML } from '../index.js';
@@ -9,6 +7,7 @@ const g = '\x1b[32m';
 const y = '\x1b[33m';
 const e = '\x1b[0m';
 
+//#region console
 /**
  * @param {string} a
  * @param {string} b
@@ -21,21 +20,34 @@ assert.equal(LOG, console.log, assert_console_msg('LOG', 'console.log'));
 assert.equal(TAB, console.table, assert_console_msg('TAB', 'console.table'));
 assert.equal(WRN, console.warn, assert_console_msg('WRN', 'console.warn'));
 console.log(`${g}console functions passed${e}`);
+//#endregion
 
+//#region data/err
 /** @param {string} a */
 const assert_data_err_msg = (a) => `'${y}${a}${e}' ${r}returned an unexpected value${e}`;
 
+assert.deepStrictEqual(data(), { err: null, data: null }, assert_data_err_msg('data()'));
+assert.deepStrictEqual(err(), { err: '', data: null }, assert_data_err_msg('err()'));
+
 assert.deepStrictEqual(data('test_data'), { err: null, data: 'test_data' }, assert_data_err_msg('data()'));
 assert.deepStrictEqual(err('test_error'), { err: 'test_error', data: null }, assert_data_err_msg('err()'));
-console.log(`${g}data and err functions passed${e}`);
 
+const data_err_test_obj = {};
+assert(data(null, data_err_test_obj) === data_err_test_obj, assert_data_err_msg('data()'));
+assert(err('', data_err_test_obj) === data_err_test_obj, assert_data_err_msg('err()'));
+console.log(`${g}data and err functions passed${e}`);
+//#endregion
+
+//#region p2eo
 /** @param {boolean} a */
 const assert_p2eo_msg = (a) => `${y}p2eo<${a ? 'resolve' : 'reject'}>${e} ${r}returned an unexpected value${e}`;
 
 assert.deepStrictEqual(await p2eo(Promise.resolve('test_async_data')), { err: null, data: 'test_async_data' }, assert_p2eo_msg(false));
 assert.deepStrictEqual(await p2eo(Promise.reject('test_async_err')), { err: 'test_async_err', data: null }, assert_p2eo_msg(true));
 console.log(`${g}p2eo function passed${e}`);
+//#endregion
 
+//#region (un)escapeHTML
 /**
  * @param {string} a
  * @param {string} b
@@ -51,7 +63,8 @@ for (const [raw, esc] of [
   assert.equal(unescapeHTML(esc), raw, assert_escape_msg(esc, raw, true));
 }
 console.log(`${g}escapeHTML function passed${e}`);
+//#endregion
 
-console.log('ObjPool:', ObjPool);
+console.log('ObjPool:', ObjPool); // TODO: test ObjPool
 
 console.log(`${g}all tests passed${e}`);

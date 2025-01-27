@@ -7,7 +7,9 @@ export const { log: LOG, table: TAB, warn: WRN, error: ERR } = console;
  * @template {string} [T='']
  */
 export function err(/**@type {T|''}*/ err = '', obj = {}) {
-  return (obj.err = err), (obj.data = null), obj;
+  obj.err = err;
+  obj.data = null;
+  return obj;
 }
 
 /**
@@ -17,7 +19,9 @@ export function err(/**@type {T|''}*/ err = '', obj = {}) {
  * @template T
  */
 export function data(data = null, obj = {}) {
-  return (obj.err = null), (obj.data = data), obj;
+  obj.err = null;
+  obj.data = data;
+  return obj;
 }
 
 /**

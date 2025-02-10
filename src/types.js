@@ -43,3 +43,8 @@
  */
 
 /** @typedef {{[key: string]: ('boolean'|'number'|'string'|'object'|'array'|'null'|'any'|Schema)}} Schema */
+
+/**
+ * @template {Schema} S
+ * @typedef {{[K in keyof S]: S[K] extends "boolean" ? boolean : S[K] extends "number" ? number : S[K] extends "string" ? string : S[K] extends "object" ? Object : S[K] extends "array" ? any[] : S[K] extends "null" ? null : S[K] extends "any" ? any : S[K] extends Schema ? Schema_T<S[K]> : never}} Schema_T
+ */

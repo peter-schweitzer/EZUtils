@@ -1,6 +1,6 @@
 {
   "name": "@peter-schweitzer/ez-utils",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "utility package for centralized type definitions and util functions",
   "main": "index.js",
   "type": "module",

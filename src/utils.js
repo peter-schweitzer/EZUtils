@@ -70,13 +70,11 @@ export function validate(obj, schema) {
 }
 
 /**
- * @param {O} obj
+ * @template {Schema} S
+ * @param {Object} obj
  * @param {S} schema
  * @param {any} eo_obj
- * @template {{}} O
- * @template {Schema} S
- * @template {{[K in keyof S & keyof O]: O[K]}} R
- * @returns {ErrorOr<R>}
+ * @returns {ErrorOr<Schema_T<S>>}
  */
 export function sanitize(obj, schema, eo_obj) {
   /**@type {{[K in keyof S]: any}}*/

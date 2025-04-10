@@ -105,8 +105,7 @@ export function sanitize(obj, schema, eo_obj) {
     else return err(`type of '${key}' has invalid type in schema`, eo_obj);
   }
 
-  //@ts-expect-error ts(2322) sanitized has correct structure, has slightly different type annotation to avoid multiple other type errors
-  return sanitized;
+  return data(sanitized);
 }
 
 /** @param {string} [raw_str=""] */

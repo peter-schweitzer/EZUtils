@@ -9,4 +9,4 @@
 
 # tests
 .pre-commit-config.yaml
-test/
+tests/

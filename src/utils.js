@@ -48,12 +48,7 @@ export function validate(obj, schema) {
   for (const key in schema)
     if (!Object.hasOwn(obj, key)) return false;
     else if (typeof schema[key] === 'object')
-      if (
-        typeof obj[key] === 'object' &&
-        // @ts-ignore
-        validate(obj[key], schema[key])
-      )
-        continue;
+      if (typeof obj[key] === 'object' && validate(obj[key], schema[key])) continue;
       else return false;
     else if (schema[key] === 'any' || schema[key] === typeof obj[key]) continue;
     else if (typeof obj[key] !== 'object') return false;

@@ -1,4 +1,6 @@
 export declare global {
+  type EO_Obj<T = any> = { err?: string | null; data?: T | null };
+
   type Data<T> = { err: null; data: T };
 
   type Err = { err: string; data: null };
@@ -13,6 +15,7 @@ export declare global {
 
   type FalseOr<T> = false | T;
   type LUT<T> = { [key: string]: T };
+  type GenericObj = LUT<any>;
 
   type Schema = { [key: string]: 'boolean' | 'number' | 'string' | 'object' | 'array' | 'null' | 'any' | Schema };
   type Schema_T<S extends Schems> = {

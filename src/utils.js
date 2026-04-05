@@ -1,34 +1,36 @@
 export const { log: LOG, table: TAB, warn: WRN, error: ERR } = console;
 
 /**
- * @param {T} [err='']
- * @param {Object} [obj={}]
- * @returns {SpecificErr<T>}
  * @template {string} [T='']
+ * @param {T} err
+ * @param {EO_Obj<null>} [obj={}]
+ * @returns {SpecificErr<T>}
  */
-export function err(/**@type {T|''}*/ err = '', obj = {}) {
+export function err(/** @type {T|''} */ err = '', obj = {}) {
   obj.err = err;
   obj.data = null;
+  // @ts-ignore ts(2322) err and data are set correctly
   return obj;
 }
 
 /**
+ * @template [T=null]
  * @param {T} data
- * @param {Object} [obj={}]
+ * @param {EO_Obj<T>} [obj={}]
  * @returns {Data<T>}
- * @template T
  */
-export function data(data = null, obj = {}) {
+export function data(/**@type {T|null}*/ data = null, obj = {}) {
   obj.err = null;
   obj.data = data;
+  // @ts-ignore ts(2322) err and data are set correctly
   return obj;
 }
 
 /**
- * @param {Promise<T>} promise
- * @param {Object} [obj={}]
- * @returns {AsyncErrorOr<T>}
  * @template T
+ * @param {Promise<T>} promise
+ * @param {EO_Obj} [obj={}]
+ * @returns {AsyncErrorOr<T>}
  */
 export async function p2eo(promise, obj = {}) {
   try {
@@ -39,9 +41,9 @@ export async function p2eo(promise, obj = {}) {
 }
 
 /**
+ * @template {GenericObj} T
  * @param {T} obj
  * @param {Schema} schema
- * @template {{}} T
  * @returns {boolean}
  */
 export function validate(obj, schema) {
@@ -66,12 +68,12 @@ export function validate(obj, schema) {
 
 /**
  * @template {Schema} S
- * @param {Object} obj
+ * @param {GenericObj} obj
  * @param {S} schema
- * @param {any} eo_obj
+ * @param {EO_Obj} eo_obj
  * @returns {ErrorOr<Schema_T<S>>}
  */
-export function sanitize(obj, schema, eo_obj) {
+export function sanitize(obj, schema, eo_obj = {}) {
   /**@type {{[K in keyof S]: any}}*/
   //@ts-ignore ts(2322) sanitized will be hydrated properly before being returned (as type 'R')
   const sanitized = {};

@@ -1,4 +1,3 @@
-export { ObjPool } from './src/ObjPool.js';
-export { ERR, LOG, TAB, WRN, data, err, escapeHTML, p2eo, sanitize, unescapeHTML, validate } from './src/utils.js';
+export { data, err, ERR, escapeHTML, LOG, p2eo, sanitize, TAB, unescapeHTML, validate, WRN } from './src/utils.js';
 
 export * from './src/types.d.ts';

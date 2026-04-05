@@ -1,6 +1,6 @@
 import assert from 'node:assert';
 
-import { ERR, LOG, ObjPool, TAB, WRN, data, err, escapeHTML, p2eo, unescapeHTML } from '../index.js';
+import { ERR, LOG, TAB, WRN, data, err, escapeHTML, p2eo, unescapeHTML } from '../index.js';
 
 const r = '\x1b[31;1m';
 const g = '\x1b[32m';
@@ -24,7 +24,7 @@ console.log(`${g}console functions passed${e}`);
 
 //#region data/err
 /** @param {string} a */
-const assert_data_err_msg = (a) => `'${y}${a}${e}' ${r}returned an unexpected value${e}`;
+const assert_data_err_msg = a => `'${y}${a}${e}' ${r}returned an unexpected value${e}`;
 
 assert.deepStrictEqual(data(), { err: null, data: null }, assert_data_err_msg('data()'));
 assert.deepStrictEqual(err(), { err: '', data: null }, assert_data_err_msg('err()'));
@@ -40,7 +40,7 @@ console.log(`${g}data and err functions passed${e}`);
 
 //#region p2eo
 /** @param {boolean} a */
-const assert_p2eo_msg = (a) => `${y}p2eo<${a ? 'resolve' : 'reject'}>${e} ${r}returned an unexpected value${e}`;
+const assert_p2eo_msg = a => `${y}p2eo<${a ? 'resolve' : 'reject'}>${e} ${r}returned an unexpected value${e}`;
 
 assert.deepStrictEqual(await p2eo(Promise.resolve('test_async_data')), { err: null, data: 'test_async_data' }, assert_p2eo_msg(false));
 assert.deepStrictEqual(await p2eo(Promise.reject('test_async_err')), { err: 'test_async_err', data: null }, assert_p2eo_msg(true));
@@ -64,7 +64,5 @@ for (const [raw, esc] of [
 }
 console.log(`${g}escapeHTML function passed${e}`);
 //#endregion
-
-console.log('ObjPool:', ObjPool); // TODO: test ObjPool
 
 console.log(`${g}all tests passed${e}`);

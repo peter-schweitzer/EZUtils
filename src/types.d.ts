@@ -17,15 +17,27 @@ export declare global {
   type LUT<T> = { [key: string]: T };
   type GenericObj = LUT<any>;
 
-  type Schema = { [key: string]: 'boolean' | 'number' | 'string' | 'object' | 'array' | 'null' | 'any' | Schema };
+  type ArrayToUnion<A extends Array<infer T>> = A[number];
+
+  type Schema_Primitive = 'boolean' | 'number' | 'string' | 'undefined' | 'function' | 'bigint' | 'symbol' | 'array' | 'null' | 'object';
+  type Schema_Primitive_T<P extends Schema_Primitive> =
+    P extends 'boolean' ? boolean
+    : P extends 'number' ? number
+    : P extends 'string' ? string
+    : P extends 'undefined' ? undefined
+    : P extends 'function' ? (...a: any[]) => any
+    : P extends 'bigint' ? bigint
+    : P extends 'symbol' ? symbol
+    : P extends 'array' ? any[]
+    : P extends 'null' ? null
+    : P extends 'object' ? GenericObj
+    : never;
+
+  type Schema = { [key: string]: 'any' | Schema_Primitive | Schema_Primitive[] | Schema };
   type Schema_T<S extends Schems> = {
-    [K in keyof S]: S[K] extends 'boolean' ? boolean
-    : S[K] extends 'number' ? number
-    : S[K] extends 'string' ? string
-    : S[K] extends 'object' ? Object
-    : S[K] extends 'array' ? any[]
-    : S[K] extends 'null' ? null
-    : S[K] extends 'any' ? any
+    [K in keyof S]: S[K] extends 'any' ? any
+    : S[K] extends Schema_Primitive ? Schema_Primitive_T<S[K]>
+    : S[K] extends Schema_Primitive[] ? Schema_Primitive_T<ArrayToUnion<S[K]>>
     : S[K] extends Schema ? Schema_T<S[K]>
     : never;
   };

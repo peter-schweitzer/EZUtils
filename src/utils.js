@@ -41,27 +41,40 @@ export async function p2eo(promise, obj = {}) {
 }
 
 /**
+ * @param {any} obj
+ * @returns {Schema_Primitive}
+ */
+function obj_to_schema_type(obj) {
+  const t = typeof obj;
+
+  if (t !== 'object') return t;
+  else if (obj === null) return 'null';
+  else if (Array.isArray(obj)) return 'array';
+  else return t;
+}
+
+/**
  * @template {GenericObj} T
+ * @template {Schema} S
  * @param {T} obj
- * @param {Schema} schema
- * @returns {boolean}
+ * @param {S} schema
+ * @returns {obj is Schema_T<S>}
  */
 export function validate(obj, schema) {
-  for (const key in schema)
+  for (const key in schema) {
+    const t = obj_to_schema_type(obj[key]);
+
     if (!Object.hasOwn(obj, key)) return false;
+    else if (schema[key] === 'any') continue;
     else if (typeof schema[key] === 'object')
-      if (typeof obj[key] === 'object' && validate(obj[key], schema[key])) continue;
+      if (Array.isArray(schema[key]))
+        if (t in schema[key]) continue;
+        else return false;
+      else if (t === 'object' && validate(obj[key], schema[key])) continue;
       else return false;
-    else if (schema[key] === 'any' || schema[key] === typeof obj[key]) continue;
-    else if (typeof obj[key] !== 'object') return false;
-    else if (schema[key] === 'object') continue;
-    else if (schema[key] === 'array')
-      if (Array.isArray(obj[key])) continue;
-      else return false;
-    else if (schema[key] === 'null')
-      if (obj[key] === null) continue;
-      else return false;
+    else if (t === schema[key]) continue;
     else return false;
+  }
 
   return true;
 }
@@ -81,25 +94,22 @@ export function sanitize(obj, schema, eo_obj = {}) {
   for (const key in schema) {
     if (!Object.hasOwn(obj, key)) return err(`obj doesn't have property '${key}'`, eo_obj);
 
-    //@ts-ignore ts(2536) key can't not index a property of obj
+    const t = obj_to_schema_type(obj[key]);
     const value = obj[key];
     const type = schema[key];
-    if (typeof type === 'object')
-      if (typeof value === 'object') {
+
+    if (type === 'any') sanitized[key] = value;
+    else if (typeof type === 'object')
+      if (Array.isArray(type))
+        if (t in type) sanitized[key] = value;
+        else return err(`type of '${key}' doesn't match schema, should be one of ${type.slice(0, -1).join(', ')} or ${type.at(-1)}`, eo_obj);
+      else if (t === 'object') {
         const { err: e, data: s } = sanitize(value, type, eo_obj);
         if (e !== null) return err(`[${key}]\n  ${e}`, eo_obj);
         else sanitized[key] = s;
-      } else return err(`type of '${key}' should be object`, eo_obj);
-    else if (type === 'any' || type === typeof value) sanitized[key] = value;
-    else if (typeof value !== 'object') return err(`type of '${key}' is not object`, eo_obj);
-    else if (type === 'object') sanitized[key] = value;
-    else if (type === 'array')
-      if (Array.isArray(value)) sanitized[key] = value;
-      else return err(`type of '${key}' is not Array`, eo_obj);
-    else if (type === 'null')
-      if (value === null) sanitized[key] = value;
-      else return err(`type of '${key}' is not null`, eo_obj);
-    else return err(`type of '${key}' has invalid type in schema`, eo_obj);
+      } else return err(`type of '${key}' is not object`, eo_obj);
+    else if (t === type) sanitized[key] = value;
+    else return err(`type of '${key}' doesn't match schema, should be ${type}`, eo_obj);
   }
 
   return data(sanitized);

@@ -68,7 +68,7 @@ export function validate(obj, schema) {
     else if (schema[key] === 'any') continue;
     else if (typeof schema[key] === 'object')
       if (Array.isArray(schema[key]))
-        if (t in schema[key]) continue;
+        if (schema[key].includes(t)) continue;
         else return false;
       else if (t === 'object' && validate(obj[key], schema[key])) continue;
       else return false;

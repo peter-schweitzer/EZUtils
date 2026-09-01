@@ -2,8 +2,8 @@ export declare global {
   type EO_Obj<T = any> = { err?: string | null; data?: T | null };
 
   type Data<T> = { err: null; data: T };
-
   type Err = { err: string; data: null };
+
   type ErrorOr<T> = Err | Data<T>;
   /** The Promise should always resolves, never reject! */
   type AsyncErrorOr<T> = Promise<ErrorOr<T>>;

@@ -1,0 +1,9 @@
+{
+  "printWidth": 200,
+  "singleQuote": true,
+  "bracketSameLine": true,
+  "experimentalTernaries": true,
+  "arrowParens": "always",
+  "useTabs": false,
+  "tabWidth": 2
+}

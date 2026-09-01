@@ -10,5 +10,8 @@
   },
   "keywords": [],
   "author": "Peter Schweitzer",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "prettier": "^3.9.6"
+  }
 }
